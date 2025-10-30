@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 set -euo pipefail
 
 rm -rf layer psycopg2 psycopg2_binary-* psycopg2_binary.libs psycopg2-layer.zip
