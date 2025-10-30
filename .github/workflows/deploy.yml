@@ -1,4 +1,5 @@
 name: Deploy (dev)
+
 on:
   push:
     branches: [ main ]
@@ -8,14 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-      - run: ./build-psycopg2-layer.sh
-      - run: npx serverless deploy --stage dev
+
+      # run the build script with bash (exec bit not required)
+      - name: Build psycopg2 layer
+        run: |
+          bash ./build-psycopg2-layer.sh
+
+      - name: Deploy to dev
+        run: npx serverless deploy --stage dev
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
