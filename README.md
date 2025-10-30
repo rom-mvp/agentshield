@@ -21,3 +21,10 @@ It redacts emails & SSNs from request bodies and (optionally) tests Postgres con
 ### 1️⃣ Build the psycopg2 layer
 ```bash
 ./build-psycopg2-layer.sh
+# Add to your README.md:
+
+## Quick Deploy
+```bash
+npm install -g serverless
+./build-psycopg2-layer.sh
+serverless deploy --stage dev
