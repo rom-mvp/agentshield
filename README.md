@@ -17,8 +17,7 @@ It redacts emails & SSNs from request bodies and (optionally) tests Postgres con
 - Node 18+ and `npx`
 - AWS CLI configured with deploy permissions
 - Python 3.9 (only for building the psycopg2 layer)
-- Serverless Framework v2 installed locally is optional (we use `npx serverless`)
 
-### 1) Install deps (none) & build the psycopg2 layer
+### 1️⃣ Build the psycopg2 layer
 ```bash
 ./build-psycopg2-layer.sh
