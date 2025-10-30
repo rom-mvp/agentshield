@@ -1,0 +1,47 @@
+service: agentshield-proxy
+variablesResolutionMode: 20210326
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-2
+  stage: ${opt:stage, 'dev'}
+  lambdaHashingVersion: 20201221
+  environment:
+    LD_LIBRARY_PATH: /opt/python:/opt
+    PG_DSN: ${ssm:/agentshield/proxy/${self:provider.stage}/PG_DSN, ''}
+  # serverless v2: keep apiKeys here (warning only about future move)
+  apiKeys:
+    - agentshield-proxy-${self:provider.stage}-key
+
+package:
+  individually: true
+  exclude:
+    - '**'
+    - 'psycopg2/**'
+    - 'psycopg2_binary-*/**'
+    - 'psycopg2_binary.libs/**'
+  include:
+    - 'handler.py'
+
+layers:
+  psycopg2:
+    package:
+      artifact: psycopg2-layer.zip
+
+functions:
+  proxy:
+    handler: handler.proxy_handler
+    layers:
+      - { Ref: Psycopg2LambdaLayer }
+    events:
+      - http:
+          path: /proxy/test
+          method: post
+          cors: true
+          private: true
+      - http:
+          path: /proxy/admin/drop
+          method: delete
+          cors: true
+          private: true
