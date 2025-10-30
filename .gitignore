@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.serverless/
+*.zip
+psycopg2/
+psycopg2_binary-*.dist-info/
+psycopg2_binary.libs/
+layer/
+.env
